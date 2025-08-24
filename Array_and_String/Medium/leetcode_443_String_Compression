@@ -1,0 +1,50 @@
+#link: https://leetcode.com/problems/string-compression/?envType=study-plan-v2&envId=leetcode-75
+
+class Solution:
+    def compress(self, chars: list[str]) -> int:
+        read_index = 0
+        write_index = 0
+
+        n = len(chars)
+
+        # iterate throuth the list
+        while read_index < n:
+            current_char = chars[read_index]
+
+            #Count the occurance 
+            count = 0
+
+            running_index = read_index
+            while running_index < n and current_char == chars[running_index]:
+                running_index +=1
+                count +=1
+            
+            #write the character to the original list
+            chars[write_index] = current_char
+            write_index+=1
+
+            #break the count dount to digits and store each digit in the list
+            if count>1:
+                for digit in str(count):
+                    chars[write_index] = digit
+                    write_index +=1
+
+            read_index = running_index
+
+        # return the replaces/written characters and count digits 
+        return write_index
+
+
+if __name__ == "__main__":
+    chars = input("Enter the string you want to compress (e.g., aaabbbccc or aabbc): ")
+    chars = list(chars)
+
+    solver = Solution()
+    # Call the compress method
+    new_length = solver.compress(chars)
+    
+    # Get the compressed result from the modified array
+    compressed_result = chars[:new_length]
+    
+    print(f"Returned new length: {new_length}")
+    print(f"Modified array (compressed part): {compressed_result}\n")
